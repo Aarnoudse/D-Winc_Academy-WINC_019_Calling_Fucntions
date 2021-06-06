@@ -26,39 +26,29 @@ console.log(example1);
 
 // VAT calculations
 
-const taxMostGoods = 21;
-const taxFood = 9;
-const taxSomeTypes = 0;
-
-const totalPrice = function (number) {
-    const totalPrice = vatCalculation(number);
-    return totalPrice + number;
+const calculateVAT = function(basePrice, VATPercentage) {
+    return basePrice * (VATPercentage / 100);
 };
 
-const vatCalculation = function (number) {
-    let vatPrice = (number * 0.21);
-    return vatPrice
+const calculatePriceIncludingVAT = function(basePrice, VATPercentage) {
+    const VAT = calculateVAT(basePrice, VATPercentage);
+    return basePrice + VAT;
 };
 
-console.log(totalPrice(10));
+console.log(calculatePriceIncludingVAT(1000, 21)); // 1210
+console.log(calculatePriceIncludingVAT(2, 9)); // 2.18
 
 
+const calculateBasePrice = function(priceIncludingVAT, VATPercentage) {
+    const basePrice = priceIncludingVAT / ((100 + VATPercentage) / 100);
+    return basePrice;
+};
 
-/* const Price_including_VAT = function (base_price, VAT) {
-    const total = base_price * VAT
-    return total
-}
+const calculateBasePriceAndVAT = function(priceIncludingVAT, VATPercentage) {
+    const basePrice = calculateBasePrice(priceIncludingVAT, VATPercentage);
+    const VAT = priceIncludingVAT - basePrice;
+    return [basePrice, VAT];
+};
 
-const BP_VA = function (base_price, VAT) {
-    const total2 = Price_including_VAT;
-    const VAT_ammount = total2 / VAT;
-}
-
-const PRINT = function (base_price, VAT) {
-    console.log(Price_including_VAT.total);
-    console.log(BP_VA.VAT_ammount);
-}
-
-const example1 = PRINT(100, 1.08);
-console.log(example1);
-*/
+console.log(calculateBasePriceAndVAT(1210, 21)); // [1000, 210]
+console.log(calculateBasePriceAndVAT(2.18, 9)); // [2, 0.18]
